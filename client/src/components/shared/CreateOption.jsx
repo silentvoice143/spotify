@@ -13,16 +13,21 @@ import {
 } from "../../utils/apiHelper";
 import { PlaylistContext } from "../../context/PlaylistContext";
 import { AuthContext } from "../../context/AuthContext";
+import { useCookies } from "react-cookie";
 
 function CreateOption() {
   const navigate = useNavigate();
   const { setPlaylistRefresh } = useContext(PlaylistContext);
-  const { isAdmin } = useContext(AuthContext);
+  const { isAdmin, isAuthenticated } = useContext(AuthContext);
 
   /////=======//////
   const boxRef = useRef();
   const [showOptions, setShowOptions] = useState(false);
+
   const handleOptions = () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
     setShowOptions(!showOptions);
   };
 
