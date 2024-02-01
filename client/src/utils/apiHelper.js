@@ -5,6 +5,7 @@ const baseURL = "http://localhost:8000";
 const makeUnauthenticatedPOSTRequest = async (route, body) => {
   const response = await fetch(baseURL + route, {
     method: "POST",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
@@ -21,6 +22,7 @@ const makeAuthenticatedPOSTRequest = async (route, body) => {
   // console.log(body);
   const response = await fetch(baseURL + route, {
     method: "POST",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
       Authorization: token,
@@ -38,6 +40,7 @@ const makeAuthenticatedPUTRequest = async (route, body) => {
   // console.log(body);
   const response = await fetch(baseURL + route, {
     method: "PUT",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
       Authorization: token,
@@ -54,6 +57,7 @@ const makeAuthenticatedGETRequest = async (route) => {
   const token = getToken();
   const response = await fetch(baseURL + route, {
     method: "GET",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
       Authorization: token,
@@ -70,6 +74,7 @@ const makeAuthenticatedDELETERequest = async (route) => {
   // console.log(token);
   const response = await fetch(baseURL + route, {
     method: "DELETE",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
       Authorization: token,
