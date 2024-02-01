@@ -25,7 +25,15 @@ const PORT = 8000;
 app.timeout = 300000;
 
 //to allow other ip address to access server
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://65bc0a7d9d830805025e5f4b--stupendous-twilight-82313c.netlify.app/",
+      "https://spotify-khvq.onrender.com",
+      "http://localhost:5173",
+    ],
+  })
+);
 
 //conver the data into json
 app.use(express.json());
