@@ -19,6 +19,7 @@ const { ConnectDB } = require("./mongodb/Connection");
 const User = require("./models/User");
 
 const app = express();
+const PORT = 8080;
 
 // Set the timeout to 5 minutes (300,000 milliseconds)
 app.timeout = 300000;
