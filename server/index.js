@@ -19,7 +19,6 @@ const { ConnectDB } = require("./mongodb/Connection");
 const User = require("./models/User");
 
 const app = express();
-const PORT = 8000;
 
 // Set the timeout to 5 minutes (300,000 milliseconds)
 app.timeout = 300000;
@@ -96,6 +95,6 @@ app.use("/playlist", playlistRoute);
 //for search route
 app.use("/search", searchRoute);
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log(`server is running on port ${PORT}`);
 });
