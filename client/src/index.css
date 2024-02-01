@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Arapey&family=Cormorant+Garamond&family=Kaushan+Script&family=Lobster&family=Merriweather&family=Montserrat&family=Mulish&family=Nunito&family=Open+Sans:wght@400;500&family=Pacifico&family=Quicksand:wght@300;400;600&family=Roboto&family=Rokkitt&family=Sail&family=Varela+Round&family=Volkhov:wght@400;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ::-webkit-scrollbar {
+  width:0;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+} */
+/* 
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #fff;
+} */
