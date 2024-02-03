@@ -50,6 +50,7 @@ const songs = [
 
 function AuthHome() {
   const [randomPlaylists, setRandomPlaylists] = useState([]);
+  const [loading, serLoading] = useState(true);
   useEffect(() => {
     const route = "/playlist/random";
     const getrandomPlaylist = async () => {
