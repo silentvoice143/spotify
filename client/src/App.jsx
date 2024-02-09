@@ -33,7 +33,7 @@ function App() {
 
   return (
     <>
-      <Router basename="/spotify-khvq.onrender.com">
+      <Router>
         <Routes>
           <Route element={<WithoutNav />}>
             {!isAuthenticated ? (
