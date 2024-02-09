@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import { Icon } from "@iconify/react";
 
 import { showErrorToast, showSuccessToast } from "../App/error/ShowToast";
+import PulseLoader from "react-spinners/PulseLoader";
 
 ///////////
 import { makeUnauthenticatedPOSTRequest } from "../../utils/apiHelper";
@@ -31,6 +32,9 @@ function Signup() {
   const [month, setmonthInput] = useState("Month");
   const [year, setYear] = useState("");
   const [gender, setGender] = useState("");
+
+  ////======Loading=======/////
+  const [Loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
   useEffect(() => {
@@ -105,6 +109,7 @@ function Signup() {
   };
 
   async function submitUser() {
+    setLoading(true);
     const user = {
       name: name,
       email: email,
@@ -127,6 +132,7 @@ function Signup() {
       const userData = response.user;
       setCookie("token", token, { path: "/", maxAge: 30 * 24 * 60 * 60 });
       setCookie("user", userData, { path: "/", maxAge: 30 * 24 * 60 * 60 });
+      setLoading(false);
       showSuccessToast("User registered successfully!!");
       setIsAuthenticated(true);
       navigate("/");
@@ -137,6 +143,11 @@ function Signup() {
   }
   return (
     <div className="login-container min-h-screen bg-[#121212] flex flex-col">
+      {Loading && (
+        <div className="absolute top-0 left-0 z-[99999] h-[100vh] w-full bg-black bg-opacity-70">
+          <PulseLoader color="#1db954" cssOverride={override} />
+        </div>
+      )}
       <div className="login-header h-[5rem] flex items-center bg-[#121212] pl-8">
         <Icon icon="logos:spotify" className="text-white w-[120px] h-[45px]" />
       </div>
