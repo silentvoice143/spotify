@@ -25,8 +25,11 @@ function Login() {
   ///auth
   const { login } = useContext(AuthContext);
   const [cookies, setCookie] = useCookies(["token", "email"]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setloading] = useState(true);
   const navigate = useNavigate();
+
+  ////======Loading=======/////
+  const [Loading, setLoading] = useState(false);
 
   useEffect(() => {
     setTimeout(function checkAuth() {
@@ -34,7 +37,7 @@ function Login() {
         // already logged in
         navigate("/");
       }
-      setLoading(false);
+      setloading(false);
     }, 1000);
   }, [cookies.token]);
 
@@ -66,6 +69,7 @@ function Login() {
       email: user,
       password: password,
     };
+    setLoading(true);
 
     const response = await makeUnauthenticatedPOSTRequest(
       "/auth/login",
@@ -77,6 +81,7 @@ function Login() {
       const userData = response.user;
 
       login(token, userData);
+      setLoading(false);
       toast.success("Login Successfully!!");
       navigate("/");
     } else {
@@ -101,6 +106,11 @@ function Login() {
           "linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 23%, rgba(43,43,43,1) 100%, rgba(126,126,126,1) 100%, rgba(0,0,0,1) 100%, rgba(6,6,6,1) 100%, rgba(112,108,108,1) 100%, rgba(75,72,72,1) 100%, rgba(255,255,255,1) 100%)",
       }}
     >
+      {Loading && (
+        <div className="absolute top-0 left-0 z-[99999] h-[100vh] w-full bg-black bg-opacity-70">
+          <PulseLoader color="#1db954" cssOverride={override} />
+        </div>
+      )}
       <div className="login-header h-[5rem] flex items-center bg-black pl-8">
         <Icon icon="logos:spotify" className="text-white w-[120px] h-[45px]" />
       </div>
