@@ -17,4 +17,6 @@ router.get("/users", admin, async (req, res) => {
   }
 });
 
+//restrict user
+
 module.exports = router;
