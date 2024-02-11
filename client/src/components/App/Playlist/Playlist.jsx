@@ -177,7 +177,7 @@ function Playlist() {
     borderColor: "green",
   };
   return (
-    <div className={"flex flex-col w-full overflow-auto"} id="custom-scrollbar">
+    <div className={"flex flex-col w-full h-full"} id="custom-scrollbar">
       {Loading && (
         <div className="absolute top-0 left-0 z-[99999] h-[100vh] w-full bg-black bg-opacity-70">
           <PulseLoader color="#1db954" cssOverride={override} />
