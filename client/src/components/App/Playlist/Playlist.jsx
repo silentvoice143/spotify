@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -72,13 +72,14 @@ function Playlist() {
   useEffect(() => {
     ////getting playlist detail by id as req body////
     const getPlaylist = async () => {
-      console.log("refreshing playlist");
+      // console.log("refreshing playlist");
+      setLoading(true);
       const response = await makeAuthenticatedPOSTRequest(
         "/playlist",
         playlistId
       );
       const playlist = response.playlist;
-      console.log(playlist.owner.name);
+      // console.log(playlist.owner.name);
 
       if (cookies.user._id === playlist.owner._id) {
         setCanEdit(true);
@@ -90,6 +91,7 @@ function Playlist() {
       ) {
         setCanAddSong(true);
       }
+      setLoading(false);
       setThumbnail(playlist.thumbnail);
       setPlaylistData(playlist);
       setUserData(response.userData);
@@ -98,6 +100,7 @@ function Playlist() {
       setSaveClicked(false);
     };
     getPlaylist();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playlistId, saveClicked, Refresh, toggleEdit]);
 
   useEffect(() => {
@@ -151,6 +154,7 @@ function Playlist() {
   };
 
   const setTypeofPlaylist = async (type) => {
+    setLoading(true);
     const route = "/playlist/edittype/" + playlistId.playlist_id;
 
     const body = {
@@ -159,6 +163,7 @@ function Playlist() {
     const response = await makeAuthenticatedPUTRequest(route, body);
     // console.log(response);
     if (response && !response.error) {
+      setLoading(false);
       showSuccessToast(response.message);
       setRefresh((prev) => !prev);
       setPlaylistRefresh((prev) => !prev);
@@ -166,11 +171,33 @@ function Playlist() {
       showErrorToast(response.error);
     }
   };
+  //to handle outside click
+
+  const optionsBoxRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the clicked element is outside the box
+      if (!optionsBoxRef.current.contains(event.target)) {
+        // Handle the event (e.g., hide the box)
+        // Your logic here to hide the box
+
+        setToggleOptions(false);
+      }
+    };
+
+    // Add click event listener to the document
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
 
   ///=====loader style=====////
   const override = {
     display: "block",
-    "z-index": "99999",
+    zIndex: "999999999",
     position: "absolute",
     margin: "0 auto",
     transform: "translate(47vw,40vh)",
@@ -185,6 +212,7 @@ function Playlist() {
       )}
       {canEdit && toggleEdit && (
         <CreatePlaylistModal
+          setToggleOptions={setToggleOptions}
           playListData={playListData}
           setToggleEdit={setToggleEdit}
           playlistId={playlistId}
@@ -233,9 +261,10 @@ function Playlist() {
             </span>
           </div>
           <div
+            ref={optionsBoxRef}
             className={`${
               toggleOptions ? "" : "hidden"
-            } absolute top-18 left-4  rounded-md z-[99999] flex bg-spotifybg shadow-primary-shadow`}
+            } absolute top-18 left-4 z-[999]  rounded-md  flex bg-spotifybg shadow-primary-shadow`}
           >
             <ul className="flex flex-col p-2 font-semibold child:flex child:gap-x-2 child:items-center hover:child:bg-lightgray child:px-4 child:py-2 child:text-sm child:cursor-default">
               {canEdit && (

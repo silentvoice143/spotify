@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FiMusic } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,7 @@ import { PlaylistContext } from "../../context/PlaylistContext";
 import { showSuccessToast } from "../App/error/ShowToast";
 
 function CreatePlaylistModal({
+  setToggleOptions,
   playListData,
   setToggleEdit,
   playlistId,
@@ -105,7 +106,7 @@ function CreatePlaylistModal({
           <div
             className="p-2 rounded-full hover:bg-lightgray"
             onClick={() => {
-              console.log("toggleing");
+              // console.log("toggleing");
               setToggleEdit(false);
             }}
           >

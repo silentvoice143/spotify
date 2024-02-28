@@ -93,7 +93,7 @@ function WithNav() {
           } w-full flex bg-black relative`}
         >
           {/* for sidebar  */}
-          <div className="leftpanel h-full w-[22rem] max-w-[22rem] bg-black text-white overflow-y-hidden flex flex-col flex-0 ">
+          <div className="leftpanel h-full  w-[25rem] min-w-[20rem] bg-black text-white overflow-y-hidden flex flex-col flex-0 ">
             <Sidebar auth={isAuthenticated} />
           </div>
 
@@ -113,7 +113,7 @@ function WithNav() {
               </div>
               {isAuthenticated && toggleDropdown && (
                 <div className="absolute z-[999999] top-[4rem] right-8 shadow-primary-shadow rounded-sm overflow-hidden">
-                  <Dropdown />
+                  <Dropdown setToggleDropdown={setToggleDropdown} />
                 </div>
               )}
 

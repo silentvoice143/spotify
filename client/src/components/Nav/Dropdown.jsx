@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { SongContext } from "../../context/SongContext";
 import { toast } from "react-toastify";
 
-function Dropdown() {
+function Dropdown({ setToggleDropdown }) {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
   const { soundPlayed, setCurrentSong, setSoundPlayed } =
@@ -20,8 +20,31 @@ function Dropdown() {
     navigate("/");
     toast.success("User logout successfully!!");
   };
+
+  //to handle outside click
+
+  const optionsBoxRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the clicked element is outside the box
+      if (!optionsBoxRef.current.contains(event.target)) {
+        // Handle the event (e.g., hide the box)
+        // Your logic here to hide the box
+
+        setToggleDropdown(false);
+      }
+    };
+
+    // Add click event listener to the document
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
   return (
-    <div className="w-[160px] bg-spotifybg  text-white">
+    <div ref={optionsBoxRef} className="w-[160px] bg-spotifybg  text-white">
       <ul className="p-1">
         <Link to="/profile">
           <li className="flex gap-2 px-4 py-2 justify-start items-center hover:bg-[#373737] cursor-default">
