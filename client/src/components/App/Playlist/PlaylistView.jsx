@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 //song component import
 
 import { PlaylistCard } from "./PlaylistCard";
