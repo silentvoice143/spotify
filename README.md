@@ -97,4 +97,9 @@ nodemon index.js
 ## Demo
 
 https://www.linkedin.com/posts/satyam-kumar-550b4025a_spotify-clone-hiiiii-everyone-i-hope-all-activity-7165609014549049345-pTGq?utm_source=share&utm_medium=member_desktop
+
+## 🔗 Links
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://silentvoice143.github.io/portfolio/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/satyam-kumar-550b4025a/)
+
     
