@@ -93,4 +93,8 @@ node index.js
 or
 nodemon index.js
 ```
+
+## Demo
+
+https://www.linkedin.com/posts/satyam-kumar-550b4025a_spotify-clone-hiiiii-everyone-i-hope-all-activity-7165609014549049345-pTGq?utm_source=share&utm_medium=member_desktop
     
