@@ -9,6 +9,7 @@ import { PlaylistContext } from "../../context/PlaylistContext";
 import { showSuccessToast } from "../App/error/ShowToast";
 
 function CreatePlaylistModal({
+  setRefresh,
   setToggleOptions,
   playListData,
   setToggleEdit,
@@ -96,7 +97,8 @@ function CreatePlaylistModal({
     showSuccessToast("Playlist updated successfully");
     setPlaylistRefresh((prev) => !prev);
     setSaveClicked(true);
-    setLoading(false);
+    setRefresh((prev) => !prev);
+    // setLoading(false);
   };
   return (
     <div className="absolute z-[99999] top-0 left-0 flex items-center justify-center w-screen h-screen text-white bg-white bg-opacity-10">

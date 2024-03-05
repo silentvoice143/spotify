@@ -1,10 +1,16 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { PlaylistContext } from "../../../context/PlaylistContext";
 import { showErrorToast, showSuccessToast } from "../error/ShowToast";
-import PulseLoader from "react-spinners/PulseLoader";
 
 ////=====react-icons======////
 import { FiMusic } from "react-icons/fi";
@@ -28,12 +34,15 @@ import "../../shared/style.css";
 /////=========modal=================///
 import CreatePlaylistModal from "../../modals/CreatePlaylistModal";
 import SingleSongCard from "../Song/SingleSongCard";
+import { AuthContext } from "../../../context/AuthContext";
 
 function Playlist() {
+  // console.log("rerender");
   const navigate = useNavigate();
 
   ///=====context=========////
   const { setPlaylistRefresh } = useContext(PlaylistContext);
+  const { setLoading } = useContext(AuthContext);
 
   ////===for toggeling purpose===////
   const [toggleOptions, setToggleOptions] = useState(false);
@@ -63,17 +72,16 @@ function Playlist() {
   ////======for handling refresh of playlist========///
   const [Refresh, setRefresh] = useState(false);
 
-  ////======Loading=======/////
-  const [Loading, setLoading] = useState(false);
-
   const playlistId = useParams("playlist_id");
-  // console.log(playlist_id);
+  // const [currentPlaylistId, setCurrentPlaylistId] = useState(playlistId);
+  // const setLoadingCallback = useCallback(setLoading, []);
+  // console.log(playlistId);
 
   useEffect(() => {
     ////getting playlist detail by id as req body////
     const getPlaylist = async () => {
-      // console.log("refreshing playlist");
-      setLoading(true);
+      console.log("refreshing playlist");
+
       const response = await makeAuthenticatedPOSTRequest(
         "/playlist",
         playlistId
@@ -100,8 +108,7 @@ function Playlist() {
       setSaveClicked(false);
     };
     getPlaylist();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playlistId, saveClicked, Refresh, toggleEdit]);
+  }, [playlistId, Refresh, setLoading, cookies.user._id]);
 
   useEffect(() => {
     const randomColor = () => {
@@ -119,7 +126,7 @@ function Playlist() {
       setColor(colors[random]);
     };
     randomColor();
-  }, [playlistId]);
+  }, []);
 
   ////========for all songs on search==========////
   const handleInputChange = async (e) => {
@@ -194,24 +201,11 @@ function Playlist() {
     };
   });
 
-  ///=====loader style=====////
-  const override = {
-    display: "block",
-    zIndex: "999999999",
-    position: "absolute",
-    margin: "0 auto",
-    transform: "translate(47vw,40vh)",
-    borderColor: "green",
-  };
   return (
     <div className={"flex flex-col w-full h-full"} id="custom-scrollbar">
-      {Loading && (
-        <div className="absolute top-0 left-0 z-[99999] h-[100vh] w-full bg-black bg-opacity-70">
-          <PulseLoader color="#1db954" cssOverride={override} />
-        </div>
-      )}
       {canEdit && toggleEdit && (
         <CreatePlaylistModal
+          setRefresh={setRefresh}
           setToggleOptions={setToggleOptions}
           playListData={playListData}
           setToggleEdit={setToggleEdit}
@@ -319,8 +313,8 @@ function Playlist() {
           <div className="flex">
             <h1 className="pb-2 font-bold">Songs</h1>
           </div>
-          {playlistSongData.map((item) => {
-            return <SingleSongCard key={item._id} info={item} />;
+          {playlistSongData.map((item, index) => {
+            return <SingleSongCard key={item._id} info={item} index={index} />;
           })}
         </div>
         {canAddSong && (
@@ -348,11 +342,12 @@ function Playlist() {
             </div>
 
             <div className="flex flex-col px-6">
-              {songData.map((item) => {
+              {songData.map((item, index) => {
                 return (
                   <SingleSongCard
                     key={item._id}
                     info={item}
+                    index={index}
                     add={true}
                     setSongRefresh={setRefresh}
                   />

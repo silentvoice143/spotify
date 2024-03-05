@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect, useContext, useMemo } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 
@@ -18,10 +18,12 @@ import { PlaylistContext } from "../../context/PlaylistContext";
 import { AuthContext } from "../../context/AuthContext";
 import { showSuccessToast } from "../App/error/ShowToast";
 
-function Sidebar({ auth }) {
+function Sidebar({ auth, setLeftPanelWidth }) {
   const { PlaylistData, setPlaylistRefresh } = useContext(PlaylistContext);
   const { isAdmin } = useContext(AuthContext);
   // console.log(PlaylistData);
+
+  const [expand, setExpand] = useState(true);
 
   const navigate = useNavigate();
 
@@ -49,24 +51,46 @@ function Sidebar({ auth }) {
     setPlaylistRefresh((prev) => !prev);
   };
 
+  const sidebarIcons = useMemo(() => {
+    return {
+      expandIcon: expand ? (
+        <Icon icon="fluent:library-20-filled" className="w-[30px] h-[30px]" />
+      ) : (
+        <Icon
+          icon="fluent:library-16-regular"
+          color="white"
+          className="w-[30px] h-[30px]"
+        />
+      ),
+    };
+  }, []);
+
   return (
     <div className="flex flex-col h-full">
       <div className="py-2 m-2 mb-0 rounded-lg bg-darkgray text-primarytext h-fit">
-        <img src={spotify_logo} alt="" className="w-[120px] p-4 pl-5" />
+        {expand && (
+          <img src={spotify_logo} alt="" className="w-[120px] p-4 pl-5" />
+        )}
 
         <NavLink to="/" className=" hover:text-white">
-          <IconText iconName={"material-symbols:home"} displayText={"Home"} />
+          <IconText
+            iconName={"material-symbols:home"}
+            displayText={expand ? "Home" : ""}
+          />
         </NavLink>
 
         <NavLink to="/search" className={` hover:text-white`}>
-          <IconText iconName={"mingcute:search-line"} displayText={"Search"} />
+          <IconText
+            iconName={"mingcute:search-line"}
+            displayText={expand ? "Search" : ""}
+          />
         </NavLink>
 
         {isAdmin && (
           <NavLink to="/mymusic" className={` hover:text-white`}>
             <IconText
               iconName={"material-symbols:library-music"}
-              displayText={"My music"}
+              displayText={expand ? "My music" : ""}
             />
           </NavLink>
         )}
@@ -74,21 +98,25 @@ function Sidebar({ auth }) {
 
       <div className="flex flex-col flex-1 p-2 py-2 m-2 rounded-lg bg-darkgray h-4/6">
         <div className="flex items-center justify-between mb-6 text-primarytext hover:child:text-white">
-          <button className="flex items-center gap-4 px-2 py-1 font-bold">
-            <Icon
-              icon="fluent:library-16-regular"
-              color="white"
-              className="w-[30px] h-[30px] hidden"
-            />
-            <Icon
-              icon="fluent:library-20-filled"
-              className="w-[30px] h-[30px]"
-            />
-            Your Library
-          </button>
+          <div className="flex items-center justify-center">
+            <button
+              onClick={() => {
+                if (expand) {
+                  setLeftPanelWidth(100);
+                } else {
+                  setLeftPanelWidth(400);
+                }
+                setExpand(!expand);
+              }}
+              className="flex items-center gap-4 px-4 py-2 font-bold"
+            >
+              {sidebarIcons.expandIcon}
+            </button>
+            {expand && <p className="font-semibold">Your Library</p>}
+          </div>
 
           {/* //options  */}
-          <CreateOption />
+          {expand && <CreateOption />}
         </div>
 
         {/* ////===if there is liked song or playlist available in user database the show that=====//// */}
@@ -98,6 +126,7 @@ function Sidebar({ auth }) {
               // console.log(item);
               return (
                 <PlaylistListComponent
+                  expand={expand}
                   key={item._id}
                   name={item.name}
                   img={item.thumbnail}
@@ -109,7 +138,9 @@ function Sidebar({ auth }) {
           </div>
         ) : (
           <div
-            className={"library-container overflow-hidden h-[140px] relative"}
+            className={` ${
+              !expand ? "hidden" : ""
+            } library-container overflow-hidden h-[140px] relative`}
           >
             <div
               id="custom-scrollbar"
@@ -123,7 +154,9 @@ function Sidebar({ auth }) {
                 <p className="font-semibold">It's easy, we'll help you</p>
                 <button
                   onClick={createPlaylist}
-                  className={`w-[140px] h-[35px] bg-white text-black flex justify-center items-center rounded-full align-middle font-bold mt-4 pb-[2px] hover:scale-105 
+                  className={`${
+                    !expand ? "hidden" : ""
+                  } w-[140px] h-[35px] bg-white text-black flex justify-center items-center rounded-full align-middle font-bold mt-4 pb-[2px] hover:scale-105 
                   
                    
                 }`}

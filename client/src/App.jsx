@@ -6,6 +6,8 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import PulseLoader from "react-spinners/PulseLoader";
+
 import { SongProvider } from "./context/SongContext.jsx";
 import { PlaylistProvider } from "./context/PlaylistContext.jsx";
 
@@ -29,10 +31,26 @@ import "react-toastify/dist/ReactToastify.css";
 import Profile from "./components/App/User/Profile.jsx";
 
 function App() {
-  const { isAuthenticated, isAdmin } = useContext(AuthContext);
+  const { isAuthenticated, isAdmin, loading, setLoading } =
+    useContext(AuthContext);
+
+  ///=====loader style=====////
+  const override = {
+    display: "block",
+    zIndex: "999999999",
+    position: "absolute",
+    margin: "0 auto",
+    transform: "translate(47vw,40vh)",
+    borderColor: "green",
+  };
 
   return (
     <>
+      {loading && (
+        <div className="absolute top-0 left-0 z-[99999] h-[100vh] w-full bg-black bg-opacity-70">
+          <PulseLoader color="#1db954" cssOverride={override} />
+        </div>
+      )}
       <Router>
         <Routes>
           <Route element={<WithoutNav />}>

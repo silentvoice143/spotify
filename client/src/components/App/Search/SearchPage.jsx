@@ -95,8 +95,10 @@ function SearchPage() {
             id="hidden-scrollbar"
           >
             {songData.length > 0 ? (
-              songData.map((item) => {
-                return <SingleSongCard key={item._id} info={item} />;
+              songData.map((item, index) => {
+                return (
+                  <SingleSongCard key={item._id} info={item} index={index} />
+                );
               })
             ) : (
               <h1 className="text-gray-500 text-md">No data found.</h1>
