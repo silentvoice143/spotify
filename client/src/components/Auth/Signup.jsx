@@ -120,14 +120,14 @@ function Signup() {
       isAdmin: isAdmin,
     };
 
-    console.log(user);
+    // console.log(user);
 
     const response = await makeUnauthenticatedPOSTRequest(
       "/auth/register",
       user
     );
 
-    console.log(response);
+    // console.log(response);
 
     if (response.err) {
       showErrorToast(response.err);
