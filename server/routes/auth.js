@@ -64,7 +64,7 @@ router.post("/register", async (req, res) => {
     //step 5: return the response to the user
     const userReturn = { ...newUser.toJSON(), token };
     delete userReturn.password;
-    // console.log(userReturn);
+
     return res
       .status(200)
       .json({ message: "Successfully signup", user: userReturn });

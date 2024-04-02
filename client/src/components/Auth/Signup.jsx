@@ -120,12 +120,20 @@ function Signup() {
       isAdmin: isAdmin,
     };
 
+    console.log(user);
+
     const response = await makeUnauthenticatedPOSTRequest(
       "/auth/register",
       user
     );
 
-    // console.log(response);
+    console.log(response);
+
+    if (response.err) {
+      showErrorToast(response.err);
+      setLoading(false);
+      return;
+    }
 
     if (response && !response.err) {
       const token = response.user.token;
@@ -136,11 +144,16 @@ function Signup() {
       showSuccessToast("User registered successfully!!");
       setIsAuthenticated(true);
       navigate("/");
-    } else {
-      showErrorToast(response.err);
-      return;
     }
   }
+
+  const override = {
+    display: "block",
+    position: "absolute",
+    margin: "0 auto",
+    transform: "translate(47vw,40vh)",
+    borderColor: "green",
+  };
   return (
     <div className="login-container min-h-screen bg-[#121212] flex flex-col">
       {Loading && (

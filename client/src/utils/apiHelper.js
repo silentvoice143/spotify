@@ -1,7 +1,7 @@
 import getToken from "./getToken";
 
-// const baseURL = "http://localhost:8000";
-const baseURL = "https://spotify-backend-09p8.onrender.com";
+const baseURL = "http://localhost:8000";
+// const baseURL = "https://spotify-backend-09p8.onrender.com";
 
 const makeUnauthenticatedPOSTRequest = async (route, body) => {
   const response = await fetch(baseURL + route, {

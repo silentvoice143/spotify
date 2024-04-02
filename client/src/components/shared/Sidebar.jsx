@@ -185,32 +185,32 @@ function Sidebar({ auth, setLeftPanelWidth }) {
           </div>
         )}
 
-        {auth ? (
-          ""
-        ) : (
-          <div>
-            {" "}
-            <div className="flex flex-wrap mx-4 mt-4 mb-6 child:text-xs child:text-gray-300 gap-x-4 gap-y-1">
-              <a href="">Legal</a>
-              <a href="">Privacy Center</a>
-              <a href="">Privacy Policy</a>
-              <a href="">Cookies</a>
-              <a href="">About Ads</a>
-              <a href="">Accessibility</a>
-              <a href="">Notice at collection</a>
-              <a href="">Your Privacy Choices</a>
-              <a href="">Cookies</a>
-            </div>
-            <div className="ml-4">
-              <button
-                className={`w-[100px] h-[35px] hover:border-white border-2 border-primarytext flex justify-center items-center rounded-full align-middle font-bold mt-2 pb-[2px] hover:scale-105 }`}
-              >
-                <Icon icon="ph:globe" className="w-[25px] h-[25px]" />
-                English
-              </button>
-            </div>
-          </div>
-        )}
+        {auth
+          ? ""
+          : expand && (
+              <div>
+                {" "}
+                <div className="flex flex-wrap mx-4 mt-4 mb-6 child:text-xs child:text-gray-300 gap-x-4 gap-y-1">
+                  <a href="">Legal</a>
+                  <a href="">Privacy Center</a>
+                  <a href="">Privacy Policy</a>
+                  <a href="">Cookies</a>
+                  <a href="">About Ads</a>
+                  <a href="">Accessibility</a>
+                  <a href="">Notice at collection</a>
+                  <a href="">Your Privacy Choices</a>
+                  <a href="">Cookies</a>
+                </div>
+                <div className="ml-4">
+                  <button
+                    className={`w-[100px] h-[35px] hover:border-white border-2 border-primarytext flex justify-center items-center rounded-full align-middle font-bold mt-2 pb-[2px] hover:scale-105 }`}
+                  >
+                    <Icon icon="ph:globe" className="w-[25px] h-[25px]" />
+                    English
+                  </button>
+                </div>
+              </div>
+            )}
       </div>
     </div>
   );
